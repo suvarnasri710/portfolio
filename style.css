@@ -1,0 +1,773 @@
+:root {
+    --primary: #00d2ff;
+    --primary-glow: rgba(0, 210, 255, 0.3);
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f8fafc;
+    --text-dim: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0; 
+    padding: 0px; 
+    box-sizing: border-box;
+    font-family: 'Inter', 'Plus Jakarta Sans', 'JetBrains Mono', monospace, sans-serif;  
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* --- Navigation --- */
+nav {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1.7rem 10%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+nav .logo { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+}
+nav span { 
+    color: var(--primary); 
+}
+
+nav ul { 
+    display: flex; 
+    list-style: none; 
+    gap: 35px; 
+    margin: 0; 
+}
+nav ul li a { 
+    text-decoration: none; 
+    color: var(--text-dim); 
+    font-weight: 500; 
+    transition: var(--transition);
+    position: relative; 
+    padding-bottom: 10px;
+}
+
+/* --- Active Tab Highlighting Logic --- */
+body:not(:has(section:target)) nav ul li a[href="#"],
+body:has(#education:target) nav ul li a[href="#education"],
+body:has(#skills:target) nav ul li a[href="#skills"],
+body:has(#projects:target) nav ul li a[href="#projects"],
+body:has(#activities:target) nav ul li a[href="#activities"],
+body:has(#Certifications:target) nav ul li a[href="#Certifications"],
+body:has(#contact:target) nav ul li a[href="#contact"] {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+body:has(section:target) nav ul li a[href="#"] { 
+    color: var(--text-dim); 
+    font-weight: 500; 
+}
+
+/* --- Underline for Active Tab --- */
+body:not(:has(section:target)) nav ul li a[href="#"]::after,
+body:has(section:target) nav ul li a:target::after { /* Note: This part requires manual mapping for full CSS purity as shown below */ } 
+
+/* Better mapping for the underline */
+body:has(#education:target) nav ul li a[href="#education"]::after,
+body:has(#skills:target) nav ul li a[href="#skills"]::after,
+body:has(#projects:target) nav ul li a[href="#projects"]::after,
+body:has(#activities:target) nav ul li a[href="#activities"]::after,
+body:has(#Certifications:target) nav ul li a[href="#Certifications"]::after,
+body:has(#contact:target) nav ul li a[href="#contact"]::after,
+body:not(:has(section:target)) nav ul li a[href="#"]::after {
+    content: ''; 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 2px;
+    background: var(--primary); 
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* --- Display Logic: One Page at a Time --- */
+section { 
+    display: none; 
+    flex-direction: column;
+    padding: 30px 10%; 
+    min-height: 80vh; 
+    animation: fadeIn 0.4s ease; 
+    scroll-margin-top: 100px;
+}
+section:target { 
+    display: block;
+    margin-top: 10px;
+ }
+
+ .activity-grid {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-height: 65vh;
+}
+
+.activity-card {
+    flex: 1;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.activity-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+}
+
+.activity-icon {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+    background: rgba(0, 210, 255, 0.1);
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+}
+
+.activity-image-wrapper {
+    width: 100%;
+    height: 140px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.activity-image-wrapper img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+
+
+body:has(section:target) header#about { display: none; }
+
+header#about {
+    height: 90vh; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center; 
+    padding: 0 10%;
+}
+
+h1 { 
+    font-size: clamp(2.5rem, 8vw, 4rem); 
+    margin-bottom: 15px; 
+}
+h1 span { 
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5); 
+     -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+}
+
+/* --- Components --- */
+.btn {
+    display: inline-block; 
+    padding: 12px 28px; 
+    background: var(--primary);
+    color: #0f172a; 
+    text-decoration: none; 
+    border-radius: 8px; 
+    font-weight: 600;
+    transition: var(--transition); 
+    border: none; 
+    cursor: pointer;
+    margin-right: 8px;
+}
+.btn-outline { 
+    background: transparent; 
+    border: 2px solid var(--primary); 
+    color: var(--primary); 
+}
+.btn:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 10px 20px var(--primary-glow); 
+}
+
+.section-title { text-align: center; 
+    font-size: 2.5rem; 
+    margin-bottom: 50px; 
+}
+.section-title::after { 
+    content: ''; 
+    display: block; 
+    width: 50px; 
+    height: 4px; 
+    background: var(--primary); 
+    margin: 10px auto; 
+}
+
+.close-btn { 
+    position: absolute; 
+    top: 30px; 
+    right: 10%; 
+    font-size: 2.5rem; 
+    text-decoration: none; 
+    color: var(--text-dim); 
+}
+
+/* --- Skills Category Styling --- */
+.skill-category {
+    margin-bottom: 50px; /* Space between categories */
+}
+
+.skill-category h3 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.skill-category h3 i {
+    margin-right: 10px;
+}
+
+/* Ensure grids are responsive and not congested */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+.skill-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: var(--transition);
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px var(--primary-glow);
+}
+
+.skill-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+    color: var(--primary);
+}
+
+/* --- Grids --- */
+.skills-grid, .project-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; 
+}
+.skill-card, .project-card { 
+    background: var(--card-bg); 
+    padding: 30px; 
+    border-radius: 15px; 
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05); 
+    transition: var(--transition);
+}
+.skill-card i { 
+    font-size: 2.5rem; 
+    color: var(--primary); 
+    margin-bottom: 15px; 
+}
+.tag { 
+    font-size: 0.7rem; 
+    background: #334155; 
+    padding: 4px 10px; 
+    border-radius: 10px; 
+    margin: 5px; 
+    display: inline-block; 
+}
+
+/* Update your project card to be a flex container */
+.project-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: var(--transition);
+    
+    /* New Properties for Alignment */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures all cards in a row have the same height */
+}
+
+/* This targets the paragraph/description text */
+.project-card p {
+    flex-grow: 1; /* This pushes everything below it to the bottom */
+    margin-bottom: 20px;
+    color: var(--text-dim);
+}
+
+/* Ensures the tags and button stay grouped at the bottom */
+.project-card .tag-container {
+    margin-bottom: 15px;
+}
+
+.project-card .btn {
+    align-self: center; /* Centers the button horizontally */
+    width: 100%; /* Optional: makes buttons uniform width */
+    margin-top: auto; /* Final fallback to ensure bottom alignment */
+}
+
+/* --- Activities Grid Alignment --- */
+.activity-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    width: 100%;
+    max-height: 55vh; /* Ensures it stays on one screen */
+}
+
+.activity-card {
+    flex: 1;
+    max-width: 300px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.activity-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.activity-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    background: rgba(0, 210, 255, 0.1);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+}
+
+.activity-content h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.activity-content p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+}
+
+.activity-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-sm {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-sm:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* --- Timeline --- */
+.timeline {
+     border-left: 2px solid var(--primary); 
+     padding-left: 30px;
+      max-width: 700px; 
+      margin: 0 auto; 
+    }
+.content { 
+    background: var(--card-bg); 
+    padding: 20px; 
+    border-radius: 10px; 
+    margin-bottom: 25px; 
+    position: relative; 
+}
+.content::before { 
+    content: ''; 
+    position: absolute; 
+    left: -41px; 
+    top: 20px;
+     width: 20px; 
+     height: 20px;
+    background: var(--bg); 
+    border: 4px solid var(--primary); 
+    border-radius: 50%;
+}
+
+/* --- Certification Section Fix --- */
+#Certifications {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#Certifications:target {
+    display: flex;
+}
+
+/* --- Tab Styling --- */
+.cert-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 3vh;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--card-bg);
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.tab-btn:hover, .tab-btn.active {
+    background: var(--primary);
+    color: #0f172a;
+}
+
+/* --- Horizontal Scroll Container --- */
+.cert-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    overflow-x: auto; /* Allows internal scrolling for cards only */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+}
+
+/* Styling the internal scrollbar for Chrome/Safari */
+.cert-container::-webkit-scrollbar {
+    height: 6px;
+}
+.cert-container::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.cert-card {
+    min-width: 250px; /* Ensures cards don't shrink */
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cert-badge {
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: rgba(0, 210, 255, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.cert-details h4 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.cert-details p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.cert-note {
+    margin-top: 3vh;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+/* --- Contact --- */
+.contact-wrapper { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+    background: var(--card-bg); 
+    padding: 40px; 
+    border-radius: 20px; 
+}
+.info-item { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 15px;
+    gap: 10px; 
+}
+.info-item i { 
+    color: var(--primary); 
+}
+input, textarea { 
+    width: 100%; 
+    padding: 12px; 
+    background: #0f172a; 
+    border: 1px solid #334155; 
+    color: white; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+}
+
+@keyframes fadeIn { 
+    from { 
+        opacity: 0; 
+        ransform: translateY(10px);
+     } to { 
+        opacity: 1;
+         transform: translateY(0);
+         } 
+        }
+
+footer { 
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid #334155; 
+    }
+
+    /* --- Hide Radio Inputs --- */
+input[name="cert-filter"] {
+    display: none;
+}
+
+/* --- Tab Button Styling --- */
+.cert-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    transition: var(--transition);
+}
+
+.tab-btn:hover {
+    color: var(--primary);
+}
+
+/* --- Content Swapping Logic --- */
+.cert-group {
+    display: none; /* Hide all groups by default */
+    width: 100%;
+}
+
+/* Show specific group based on checked radio */
+#nptel-filter:checked ~ .cert-content-area .nptel-group,
+#intern-filter:checked ~ .cert-content-area .intern-group,
+#design-filter:checked ~ .cert-content-area .design-group,
+#top-picks:checked ~ .cert-content-area .cert-group { /* 'Top Picks' shows all or a select few */
+    display: block;
+}
+
+/* Highlight Active Tab Button */
+#top-picks:checked ~ .cert-tabs label[for="top-picks"],
+#nptel-filter:checked ~ .cert-tabs label[for="nptel-filter"],
+#intern-filter:checked ~ .cert-tabs label[for="intern-filter"],
+#design-filter:checked ~ .cert-tabs label[for="design-filter"] {
+    background: var(--primary);
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* --- Grid for Certificates --- */
+.cert-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-height: 50vh; /* Fits on one screen */
+    overflow-y: auto; /* Internal scroll only if content is too long */
+    padding: 10px;
+}
+
+
+
+
+/* =========================================
+   RESPONSIVE DESIGN FIXES
+========================================= */
+
+/* Make images + media flexible */
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- Tablets (≤1024px) ---------- */
+@media (max-width: 1024px) {
+
+    nav {
+        padding: 1.2rem 5%;
+    }
+
+    section {
+        padding: 30px 5%;
+    }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr; /* stack */
+    }
+
+    .activity-grid {
+        flex-wrap: wrap;
+        max-height: none;
+        justify-content: center;
+    }
+
+    .activity-card {
+        max-width: 45%;
+    }
+
+    .btn{
+        margin-bottom: 10px;
+    }
+}
+
+
+/* ---------- Mobiles (≤768px) ---------- */
+@media (max-width: 768px) {
+
+    /* NAVBAR STACK */
+    nav {
+        flex-direction: column;
+        gap: 15px;
+        padding: 1rem 5%;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+    }
+
+    /* HEADER */
+    header#about {
+        height: auto;
+        padding: 80px 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    /* GRIDS → 1 column */
+    .skills-grid,
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* ACTIVITIES */
+    .activity-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .activity-card {
+        max-width: 100%;
+    }
+
+    /* CERTIFICATIONS */
+    .cert-container {
+        grid-template-columns: 1fr;
+        max-height: none;
+        overflow: visible;
+    }
+
+    /* CONTACT */
+    .contact-wrapper {
+        padding: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* ---------- Small Phones (≤480px) ---------- */
+@media (max-width: 480px) {
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .skill-card,
+    .project-card {
+        padding: 20px;
+    }
+
+    .close-btn {
+        right: 5%;
+        font-size: 2rem;
+    }
+
+    nav .logo {
+        font-size: 1.2rem;
+    }
+
+    .tab-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+
+    .btn{
+        margin: 5px;
+    }
+}
