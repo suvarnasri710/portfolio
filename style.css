@@ -18,6 +18,11 @@
 body {
     background-color: var(--bg);
     color: var(--text);
+    /* Increases base font size and adds breathing room between lines */
+    font-size: 18px; 
+    line-height: 1.8; 
+    /* Adds subtle spacing between every letter globally */
+    letter-spacing: 0.5px; 
     overflow-x: hidden;
 }
 
@@ -34,8 +39,8 @@ nav {
 }
 
 nav .logo { 
-    font-size: 1.5rem; 
-    font-weight: 800; 
+    font-size: 1.8rem; 
+    font-weight: 900; 
 }
 nav span { 
     color: var(--primary); 
@@ -50,7 +55,7 @@ nav ul {
 nav ul li a { 
     text-decoration: none; 
     color: var(--text-dim); 
-    font-weight: 500; 
+    font-weight: 700; 
     transition: var(--transition);
     position: relative; 
     padding-bottom: 10px;
@@ -65,12 +70,12 @@ body:has(#activities:target) nav ul li a[href="#activities"],
 body:has(#Certifications:target) nav ul li a[href="#Certifications"],
 body:has(#contact:target) nav ul li a[href="#contact"] {
     color: var(--primary);
-    font-weight: 700;
+    font-weight: 800;
 }
 
 body:has(section:target) nav ul li a[href="#"] { 
     color: var(--text-dim); 
-    font-weight: 500; 
+    font-weight: 700; 
 }
 
 /* --- Underline for Active Tab --- */
@@ -90,7 +95,7 @@ body:not(:has(section:target)) nav ul li a[href="#"]::after {
     bottom: 0; 
     left: 0; 
     width: 100%; 
-    height: 2px;
+    height: 3px;
     background: var(--primary); 
     box-shadow: 0 0 10px var(--primary-glow);
 }
@@ -337,7 +342,7 @@ h1 span {
 .activity-grid {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     width: 100%;
     max-height: 55vh; /* Ensures it stays on one screen */
 }
